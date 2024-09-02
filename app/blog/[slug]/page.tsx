@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { CustomMDX } from "app/components/mdx";
 import { formatDate, getBlogPosts } from "app/blog/utils";
 import { baseUrl } from "app/sitemap";
-import { sql } from "@vercel/postgres";
+import { ViewCount } from "app/components/view-count";
 
 export async function generateStaticParams() {
   let posts = getBlogPosts();
@@ -52,40 +52,8 @@ export function generateMetadata({ params }) {
   };
 }
 
-export async function getViewsCount(): Promise<
-  { slug: string; count: number }[]
-> {
-  "use server";
-  if (!process.env.POSTGRES_URL) {
-    return [];
-  }
-
-  const { rows } = await sql`
-    SELECT slug, count
-    FROM views
-  `;
-
-  return rows.map((row) => ({
-    slug: row.slug,
-    count: row.count,
-  }));
-}
-
-const incrementView = async (slug: string) => {
-  "use server";
-
-  await sql`
-    INSERT INTO views (slug, count)
-    VALUES (${slug}, 1)
-    ON CONFLICT (slug) DO UPDATE SET count = views.count + 1 
-  `;
-};
-
 export default async function Blog({ params }) {
   let post = getBlogPosts().find((post) => post.slug === params.slug);
-  await incrementView(params.slug);
-  const views = await getViewsCount();
-  const count = views.find((view) => view.slug === params.slug)?.count || 0;
 
   if (!post) {
     notFound();
@@ -122,9 +90,7 @@ export default async function Blog({ params }) {
         <p className="text-sm text-neutral-600 dark:text-neutral-400">
           {formatDate(post.metadata.publishedAt)}
         </p>
-        <p className="text-sm text-neutral-600 dark:text-neutral-400">
-          {count.toLocaleString()} views
-        </p>
+        <ViewCount slug={post.slug} />
       </div>
       <article className="prose">
         <CustomMDX source={post.content} />
