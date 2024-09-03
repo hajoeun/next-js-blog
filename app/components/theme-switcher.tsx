@@ -8,21 +8,32 @@ export const ThemeSwitcher = () => {
   const [theme, setTheme] = useState<Theme>("light");
 
   useEffect(() => {
+    if (!("theme" in localStorage)) {
+      const isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      const nextTheme = isDark ? "dark" : "light";
+      applyTheme(nextTheme);
+      return;
+    }
+
     const currentTheme = localStorage.getItem("theme") as Theme;
-    setTheme(currentTheme);
+    applyTheme(currentTheme);
   }, []);
 
-  const handleToggle = () => {
-    const currentTheme = localStorage.getItem("theme") as Theme;
-    if (currentTheme === "light") {
-      localStorage.setItem("theme", "dark");
+  const applyTheme = (nextTheme: Theme) => {
+    if (localStorage.getItem("theme") === nextTheme) return;
+
+    setTheme(nextTheme);
+    localStorage.setItem("theme", nextTheme);
+    if (nextTheme === "dark") {
       document.documentElement.classList.add("dark");
-      setTheme("dark");
     } else {
-      localStorage.setItem("theme", "light");
       document.documentElement.classList.remove("dark");
-      setTheme("light");
     }
+  };
+
+  const handleToggle = () => {
+    const nextTheme = theme === "light" ? "dark" : "light";
+    applyTheme(nextTheme);
   };
 
   return (
