@@ -1,5 +1,4 @@
 import { getViewsCount, incrementView } from "queries/db";
-import { cache } from "react";
 
 type Props = {
   slug: string;
@@ -16,9 +15,8 @@ export const ViewCount = async ({ slug }: Props) => {
   );
 };
 
-const cachedIncrementView = cache(incrementView);
 export const IncrementViewCount = async ({ slug }: Props) => {
-  await cachedIncrementView(slug);
+  await incrementView(slug);
 
   return null;
 };
