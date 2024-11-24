@@ -1,5 +1,3 @@
-"use server";
-
 import { sql } from "@vercel/postgres";
 import { unstable_noStore as noStore } from "next/cache";
 
@@ -24,7 +22,8 @@ export async function getViewsCount(): Promise<
 }
 
 export const incrementView = async (slug: string) => {
-  noStore();
+  "use server";
+
   await sql`
     INSERT INTO views (slug, count)
     VALUES (${slug}, 1)
