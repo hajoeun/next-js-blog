@@ -26,6 +26,7 @@ export async function getViewsCount(): Promise<
 }
 
 export const incrementView = async (slug: string) => {
+  noStore();
   await sql`
     INSERT INTO views (slug, count)
     VALUES (${slug}, 1)
