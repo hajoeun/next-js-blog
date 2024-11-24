@@ -8,7 +8,7 @@ type Props = {
 const cachedIncrementView = cache(incrementView);
 
 export const ViewCount = async ({ slug }: Props) => {
-  cachedIncrementView(slug);
+  await cachedIncrementView(slug);
   const views = await getViewsCount();
   const count = views.find((view) => view.slug === slug)?.count || 0;
 
