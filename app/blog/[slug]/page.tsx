@@ -4,6 +4,7 @@ import { formatDate, getBlogPosts } from "app/blog/utils";
 import { baseUrl } from "app/sitemap";
 import { ViewCount } from "app/components/view-count";
 import { Suspense } from "react";
+import { IncrementView } from "app/components/increment-view-count";
 
 export function generateMetadata({ params }) {
   let post = getBlogPosts().find((post) => post.slug === params.slug);
@@ -86,6 +87,7 @@ export default async function Blog({ params }) {
         <Suspense>
           <ViewCount slug={post.slug} />
         </Suspense>
+        <IncrementView slug={post.slug} />
       </div>
       <article className="prose">
         <CustomMDX source={post.content} />

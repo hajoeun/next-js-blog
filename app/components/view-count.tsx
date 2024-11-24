@@ -1,11 +1,10 @@
-import { getViewsCount, incrementView } from "queries/db";
+import { getViewsCount } from "queries/db";
 
 type Props = {
   slug: string;
 };
 
 export const ViewCount = async ({ slug }: Props) => {
-  await incrementView(slug);
   const views = await getViewsCount();
   const count = views.find((view) => view.slug === slug)?.count || 0;
 
