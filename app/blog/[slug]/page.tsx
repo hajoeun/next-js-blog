@@ -2,8 +2,9 @@ import { notFound } from "next/navigation";
 import { CustomMDX } from "app/components/mdx";
 import { formatDate, getBlogPosts } from "app/blog/utils";
 import { baseUrl } from "app/sitemap";
-import { IncrementViewCount, ViewCount } from "app/components/view-count";
+import { ViewCount } from "app/components/view-count";
 import { Suspense } from "react";
+import { IncrementViewCount } from "app/components/increment-view-count";
 
 export function generateMetadata({ params }) {
   let post = getBlogPosts().find((post) => post.slug === params.slug);

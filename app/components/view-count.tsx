@@ -14,9 +14,3 @@ export const ViewCount = async ({ slug }: Props) => {
     </p>
   );
 };
-
-export const IncrementViewCount = async ({ slug }: Props) => {
-  await incrementView(slug);
-
-  return null;
-};
