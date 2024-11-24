@@ -2,7 +2,11 @@
 
 import { useEffect } from "react";
 
-export const IncrementView = ({ slug }: { slug: string }) => {
+type Props = {
+  slug: string;
+};
+
+export const IncrementViewCount = ({ slug }: Props) => {
   useEffect(() => {
     const updateView = async () => {
       await fetch(`/api/view-count`, {
