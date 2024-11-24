@@ -3,12 +3,11 @@ import { sql } from "@vercel/postgres";
 
 export async function POST(req: NextRequest) {
   try {
-    // 요청에서 slug 추출
     const { slug } = await req.json();
     
     if (!slug || typeof slug !== "string") {
       return NextResponse.json(
-        // { error: "Slug is required and must be a string" },
+        { error: "Slug is required and must be a string" },
         { status: 400 }
       );
     }
@@ -26,7 +25,7 @@ export async function POST(req: NextRequest) {
   } catch (error) {
     console.error("Error incrementing view:", error);
     return NextResponse.json(
-      // { error: "Failed to increment view" },
+      { error: "Failed to increment view" },
       { status: 500 }
     );
   }
