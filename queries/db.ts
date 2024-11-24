@@ -9,7 +9,7 @@ export async function getViewsCount(): Promise<
     return [];
   }
 
-  noStore();
+  // noStore();
   const { rows } = await sql`
     SELECT slug, count
     FROM views
