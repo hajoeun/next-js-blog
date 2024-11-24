@@ -1,7 +1,9 @@
 "use server";
 
-import { sql } from "@vercel/postgres";
+import { neon } from "@neondatabase/serverless"
 import { unstable_noStore as noStore } from "next/cache";
+
+const sql = neon(`${process.env.POSTGRES_URL}`);
 
 export async function getViewsCount(): Promise<
   { slug: string; count: number }[]
@@ -12,7 +14,7 @@ export async function getViewsCount(): Promise<
   }
 
   noStore();
-  const { rows } = await sql`
+  const rows = await sql`
     SELECT slug, count
     FROM views
   `;
