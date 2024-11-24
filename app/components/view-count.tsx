@@ -5,10 +5,7 @@ type Props = {
   slug: string;
 };
 
-const cachedIncrementView = cache(incrementView);
-
 export const ViewCount = async ({ slug }: Props) => {
-  await cachedIncrementView(slug);
   const views = await getViewsCount();
   const count = views.find((view) => view.slug === slug)?.count || 0;
 
@@ -17,4 +14,11 @@ export const ViewCount = async ({ slug }: Props) => {
       {count.toLocaleString()} views
     </p>
   );
+};
+
+const cachedIncrementView = cache(incrementView);
+export const IncrementViewCount = async ({ slug }: Props) => {
+  await cachedIncrementView(slug);
+
+  return null;
 };

@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { CustomMDX } from "app/components/mdx";
 import { formatDate, getBlogPosts } from "app/blog/utils";
 import { baseUrl } from "app/sitemap";
-import { ViewCount } from "app/components/view-count";
+import { IncrementViewCount, ViewCount } from "app/components/view-count";
 import { Suspense } from "react";
 
 export function generateMetadata({ params }) {
@@ -85,6 +85,7 @@ export default async function Blog({ params }) {
         </p>
         <Suspense>
           <ViewCount slug={post.slug} />
+          <IncrementViewCount slug={post.slug} />
         </Suspense>
       </div>
       <article className="prose">
