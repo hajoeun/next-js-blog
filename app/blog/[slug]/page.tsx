@@ -85,6 +85,8 @@ export default async function Blog({ params }) {
         </p>
         <Suspense>
           <ViewCount slug={post.slug} />
+        </Suspense>
+        <Suspense>
           <IncrementViewCount slug={post.slug} />
         </Suspense>
       </div>
